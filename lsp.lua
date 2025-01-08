@@ -1,8 +1,11 @@
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.clangd.setup{
     cmd = { "clangd", "--background-index", "-std=c++17" },
+    root_dir = require('lspconfig.util').root_pattern("compile_commands.json", ".git", "*.pro"),
+    capabilities = require("cmp_nvim_lsp").default_capabilities()
 }
 require'lspconfig'.gdscript.setup{}
+require'lspconfig'.qmlls.setup{}
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -37,7 +40,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'rust_analyzer', 'clangd', 'gdscript' }
+local servers = { 'pyright', 'rust_analyzer', 'clangd', 'gdscript', 'qmlls' }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
